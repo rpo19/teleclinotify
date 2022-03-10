@@ -9,3 +9,14 @@ Run `./setup.sh ~/.local/bin`. This command assumes `~/.local/bin` is in your `$
 ```
 ./run_a_long_script && teleclinotify Longscript successfully completed. || teleclinotify Longscript FAILED.
 ```
+
+## How to get your chat id
+- Start a chat with a bot and send any message.
+- Make an HTTP request to the getUpdates API:
+```
+# e.g with curl
+# replace TELEGRAM_BOT_TOKEN or set it correctly
+# jq helps formatting the json but it is not vital
+curl https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/getUpdates | jq
+```
+- Extract the chat id from the response-
