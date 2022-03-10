@@ -1,0 +1,15 @@
+#!/bin/bash
+source ~/.local/share/teleclinotify/config
+
+if [ -z "$@" ]
+then
+    message="ping"
+else
+    message="$@"
+fi
+
+curl -s -X POST \
+     -H 'Content-Type: application/json' \
+     -d '{"chat_id": "'"$CHAT_ID"'", "text": "'"$message"'"}' \
+     "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage" \
+     > /dev/null 2>/dev/null || echo "$0: http error."
