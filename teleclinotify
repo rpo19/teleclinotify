@@ -1,11 +1,11 @@
 #!/bin/bash
 source ~/.local/share/teleclinotify/config
 
-if [ -z "$@" ]
+if [ -z "$1" ]
 then
-    message="ping"
+    message="[From: $(hostname)] ping"
 else
-    message="$@"
+    message="[From: $(hostname)] $@"
 fi
 
 curl -s -X POST \
