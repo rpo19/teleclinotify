@@ -3,7 +3,7 @@ source ~/.local/share/teleclinotify/config
 
 if [ -z "$1" ]
 then
-    message="[From: $(hostname)] ping"
+    message="[From: $(hostname)] $(< /dev/stdin)"
 else
     message="[From: $(hostname)] $@"
 fi
