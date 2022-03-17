@@ -7,7 +7,11 @@ Run `./setup.sh ~/.local/bin`. This command assumes `~/.local/bin` is in your `$
 
 ## Usage
 ```
-./run_a_long_script && teleclinotify Longscript successfully completed. || teleclinotify Longscript FAILED.
+command && ./teleclinotify completed successfully || ./teleclinotify error
+
+command | ./teleclinotify
+
+./teleclinotify -r command
 ```
 
 ## How to get your chat id

@@ -1,11 +1,54 @@
 #!/bin/bash
+if [ "$1" = "--help" ]
+then
+    cat << EOF
+Usage:
+command && $0 completed successfully || $0 error
+
+command | $0
+
+$0 -r command
+EOF
+    exit 0
+fi
+
 source ~/.local/share/teleclinotify/config
 
 if [ -z "$1" ]
 then
     message="[From: $(hostname)] $(< /dev/stdin)"
 else
-    message="[From: $(hostname)] $@"
+    if [ "$1" = "-r" ]
+    then
+        command="${@:2}"
+        # capture also stderr
+        stdout=$(eval "$command" 2>&1)
+        result=$?
+
+        if [ $result -eq 0 ]
+        then
+            success="Completed successfully."
+        else
+            success="ERROR."
+        fi
+
+        outlen=${#stdout}
+        if [ $outlen -gt $MAXCHARS ]
+        then
+            message="[From: $(hostname)] $success\n\n${stdout:0:$MAXCHARS}\n[truncated]"
+        else
+            message="[From: $(hostname)] $success\n\n$stdout"
+        fi
+
+        if [ "$SAVEOUTPUT" = "y" ]
+        then
+            # save complete output to file
+            echo -e "[Command: $command]\n[Date: $(date)]\n[From: $(hostname)] $success\n\n$stdout" \
+                > "${OUTPUTPATH}/${0}_$(date +%Y%m%d%M%S).txt"
+        fi
+    else
+        message="[From: $(hostname)] $@"
+    fi
 fi
 
 curl -s -X POST \
