@@ -22,7 +22,7 @@ else
     then
         command="${@:2}"
         # capture also stderr
-        stdout=$(eval "$command" 2>&1)
+        stdout=$(eval "$command" 2>&1 | tee /dev/tty)
         result=$?
 
         if [ $result -eq 0 ]
