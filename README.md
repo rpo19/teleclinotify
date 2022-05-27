@@ -8,6 +8,8 @@ Run `./setup.sh ~/.local/bin`. This command assumes `~/.local/bin` is in your `$
 ## Usage
 ```
 ./run_a_long_script && teleclinotify Longscript successfully completed. || teleclinotify Longscript FAILED.
+# or using the alias and the exit code to understand if successful or not
+./run_a_long_script && tcn -e $? [message]
 ```
 
 ## How to get your chat id

@@ -1,4 +1,6 @@
 #!/bin/bash
+ALIAS=tcn
+
 if [ -z "$1" ]
 then
     destpath="~/.local/bin"
@@ -20,11 +22,16 @@ export yourchatid
 mkdir -p ~/.local/share/teleclinotify
 envsubst < config.sample > ~/.local/share/teleclinotify/config
 
+myinstall () {
+    cp teleclinotify $destpath 2>/dev/null && \
+    ln -sf $destpath/teleclinotify $destpath/tcn
+}
+
 echo "Installing teleclinotify into ${destpath}..."
-if ! cp teleclinotify $destpath 2>/dev/null
+if ! eval myinstall
 then
     echo "Error intalling teleclinotify into ${destpath}."
     echo "You may not have writing permission to ${destpath}."
     echo "Trying with sudo; CTRL+C to exit."
-    sudo cp teleclinotify $destpath 2>/dev/null || echo "Failed."
+    sudo myinstall || echo "Failed."
 fi
